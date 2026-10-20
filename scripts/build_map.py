@@ -36,6 +36,14 @@ def build():
     with zipfile.ZipFile(ROOT/'data/places.xlsx') as archive:
         sheet=read_sheet(archive,'xl/worksheets/sheet1.xml')
         review_sheets=[read_sheet(archive,name) for name in archive.namelist() if re.fullmatch(r'xl/worksheets/sheet\d+\.xml',name) and name!='xl/worksheets/sheet1.xml']
+        proof=next((rows for rows in review_sheets if any('รหัส' in row.values() and 'ละติจูด' in row.values() and 'ลองจิจูด' in row.values() for row in rows)),[])
+        proof_by_id={}
+        if proof:
+            ph=next(i for i,row in enumerate(proof) if 'รหัส' in row.values() and 'ละติจูด' in row.values())
+            phead={v:k for k,v in proof[ph].items()}
+            for prow in proof[ph+1:]:
+                ident=prow.get(phead['รหัส'],'').strip()
+                if ident:proof_by_id[ident]={k:prow.get(c,'').strip() for k,c in phead.items()}
         review=next((rows for rows in review_sheets if any('รหัส' in row.values() and 'สถานะเปิดจากหลักฐาน' in row.values() for row in rows)),[])
         if review:
             h=next((i for i,row in enumerate(review) if 'รหัส' in row.values() and 'สถานะเปิดจากหลักฐาน' in row.values()),None)
@@ -71,8 +79,22 @@ def build():
         except (ValueError,TypeError):date=str(serial)
         item=dict(original)
         item.update({'id':explicit_id or original.get('id') or 'NEW-'+str(len(data)+1).zfill(3),'n':name,'p':province,'g':GROUPS.index(group)+1,'t':row.get(headers['ประเภท'],''),'u':date})
-        item['a']=areas.get(item['id'],'')
+        item['a']=item.get('a') or areas.get(item['id'],'')
         item.update(audit.get(item['id'],{}))
+        route=row.get(headers.get('เส้นทาง',''),'').strip()
+        if route:
+            if route.isdigit():route=route.zfill(2)
+            if route not in [str(i).zfill(2) for i in range(1,11)]+['เพิ่มเติม']:raise ValueError('Unknown route for '+name+': '+route)
+            item['route']=route
+        item['routeName']=row.get(headers.get('ชื่อเส้นทางหรือพื้นที่เพิ่ม',''),'').strip() or item.get('routeName','')
+        item['routeRelation']=row.get(headers.get('ความสัมพันธ์กับเส้นทาง',''),'').strip() or item.get('routeRelation','')
+        item['day']=row.get(headers.get('วันตามต้นฉบับ',''),'').strip()
+        if item['day']=='ตัวเลือกเสริม':item['day']=''
+        item['confirmed']=row.get(headers.get('ผลประเมินตามเกณฑ์',''),'').strip() or 'รอประเมิน'
+        if item['id'] in proof_by_id:
+            p=proof_by_id[item['id']];lat=p.get('ละติจูด','');lon=p.get('ลองจิจูด','')
+            item['xy']=[float(lon),float(lat)] if lat and lon else None
+            if p.get('Google Maps'):item['url']=p['Google Maps']
         item.setdefault('xy',None);item.setdefault('note','');item.setdefault('cs','');item.setdefault('sc',0)
         item.setdefault('url','https://www.google.com/maps/search/?api=1&query='+__import__('urllib.parse',fromlist=['quote']).quote(name+' '+province))
         if item['xy']:
@@ -90,7 +112,7 @@ def build():
     (out/'index.html').write_text(document,encoding='utf-8')
     (out/'.nojekyll').write_text('',encoding='utf-8')
     mapped=sum(bool(r['xy']) for r in data)
-    summary={'title':'TAT Muslim Friendly TOR Map 2026','venues':len(data),'mapped':mapped,'pending_coordinates':len(data)-mapped,'groups':{g:sum(r['g']==i+1 for r in data) for i,g in enumerate(GROUPS)}}
+    summary={'title':'TAT Muslim Friendly TOR Map 2026','venues':len(data),'mapped':mapped,'pending_coordinates':len(data)-mapped,'groups':{g:sum(r['g']==i+1 for r in data) for i,g in enumerate(GROUPS)},'types':{t:sum(r['t']==t for r in data) for t in sorted(set(r['t'] for r in data))},'routes':{r:sum(x.get('route')==r for x in data) for r in sorted(set(x.get('route','เพิ่มเติม') for x in data))}}
     (out/'build-summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps(summary,ensure_ascii=True))
     return summary

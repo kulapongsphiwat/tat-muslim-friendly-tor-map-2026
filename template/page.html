@@ -1838,7 +1838,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     &lt;h3&gt;ประเภทแหล่ง&lt;/h3&gt;&lt;div class=&quot;tmf-summary-types text-small&quot; id=&quot;tmf-types-summary&quot;&gt;&lt;/div&gt;
     &lt;h3&gt;พื้นที่ที่ต้องการติดตาม&lt;/h3&gt;&lt;div class=&quot;tmf-destinations&quot; id=&quot;tmf-destinations&quot;&gt;&lt;/div&gt;
     &lt;details&gt;&lt;summary id=&quot;tmf-provinces-title&quot;&gt;จำนวนแหล่งรายจังหวัด&lt;/summary&gt;&lt;div class=&quot;tmf-province-list&quot; id=&quot;tmf-provinces-summary&quot;&gt;&lt;/div&gt;&lt;/details&gt;
-    &lt;div class=&quot;tmf-progress text-small&quot; id=&quot;tmf-review-progress&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;tmf-progress text-small&quot; id=&quot;tmf-review-progress&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;&lt;p class=&quot;text-small text-muted&quot;&gt;ผลค้นหาคัดจากชื่อและจังหวัด ยังต้องยืนยันสาขา เจ้าของช่องทาง และการเปิดปัจจุบัน จำนวนหลายเว็บไม่ใช่ผลรับรองมาตรฐาน&lt;/p&gt;&lt;div class=&quot;viz-row&quot;&gt;&lt;a class=&quot;btn&quot; href=&quot;https://raw.githubusercontent.com/kulapongsphiwat/tat-muslim-friendly-tor-map-2026/main/data/places.xlsx&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;ดาวน์โหลด Excel ล่าสุด&lt;/a&gt;&lt;button class=&quot;btn&quot; id=&quot;tmf-show-gmhi&quot; type=&quot;button&quot;&gt;ดูแหล่งในทะเบียน GMHI&lt;/button&gt;&lt;button class=&quot;btn btn-ghost&quot; id=&quot;tmf-clear-all&quot; type=&quot;button&quot;&gt;แสดงทุกแหล่ง&lt;/button&gt;&lt;/div&gt;
   &lt;/section&gt;
   &lt;div class=&quot;legend text-small&quot; aria-label=&quot;กลุ่มที่เสนอ&quot;&gt;
     &lt;span&gt;&lt;svg viewBox=&quot;0 0 14 14&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;7&quot; cy=&quot;7&quot; r=&quot;5&quot; fill=&quot;var(--viz-series-1)&quot;&gt;&lt;/circle&gt;&lt;/svg&gt;พร้อมขาย&lt;/span&gt;
@@ -1849,7 +1849,7 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;label class=&quot;form-label&quot;&gt;ค้นหาชื่อแหล่ง&lt;input class=&quot;form-control&quot; id=&quot;tmf-search&quot; type=&quot;search&quot; placeholder=&quot;ชื่อสถานที่หรือรหัส&quot;&gt;&lt;/label&gt;
     &lt;label class=&quot;form-label&quot;&gt;จังหวัด&lt;select class=&quot;form-select&quot; id=&quot;tmf-province&quot;&gt;&lt;option value=&quot;&quot;&gt;ทุกจังหวัด&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
     &lt;label class=&quot;form-label&quot;&gt;พื้นที่ย่อย&lt;select class=&quot;form-select&quot; id=&quot;tmf-area&quot;&gt;&lt;option value=&quot;&quot;&gt;ทุกพื้นที่ย่อย&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
-&lt;label class=&quot;form-label&quot;&gt;กลุ่ม&lt;select class=&quot;form-select&quot; id=&quot;tmf-group&quot;&gt;&lt;option value=&quot;&quot;&gt;ทุกกลุ่ม&lt;/option&gt;&lt;option value=&quot;1&quot;&gt;พร้อมขาย&lt;/option&gt;&lt;option value=&quot;2&quot;&gt;พัฒนาเพื่อพร้อมขาย&lt;/option&gt;&lt;option value=&quot;3&quot;&gt;มีศักยภาพ แต่ต้องพัฒนามาตรฐาน&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
+&lt;label class=&quot;form-label&quot;&gt;หลักฐานออนไลน์&lt;select class=&quot;form-select&quot; id=&quot;tmf-evidence&quot;&gt;&lt;option value=&quot;&quot;&gt;ทุกสถานะหลักฐาน&lt;/option&gt;&lt;option value=&quot;multi&quot;&gt;พบชื่อสัมพันธ์หลายเว็บ&lt;/option&gt;&lt;option value=&quot;weak&quot;&gt;ยังขาดแหล่งที่สอง&lt;/option&gt;&lt;option value=&quot;gmhi&quot;&gt;มีชื่อในทะเบียน GMHI&lt;/option&gt;&lt;option value=&quot;conflict&quot;&gt;มีข้อมูลขัดแย้ง/ต้องตรวจ&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;label class=&quot;form-label&quot;&gt;กลุ่ม&lt;select class=&quot;form-select&quot; id=&quot;tmf-group&quot;&gt;&lt;option value=&quot;&quot;&gt;ทุกกลุ่ม&lt;/option&gt;&lt;option value=&quot;1&quot;&gt;พร้อมขาย&lt;/option&gt;&lt;option value=&quot;2&quot;&gt;พัฒนาเพื่อพร้อมขาย&lt;/option&gt;&lt;option value=&quot;3&quot;&gt;มีศักยภาพ แต่ต้องพัฒนามาตรฐาน&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
     &lt;label class=&quot;form-label&quot;&gt;ประเภท&lt;select class=&quot;form-select&quot; id=&quot;tmf-type&quot;&gt;&lt;option value=&quot;&quot;&gt;ทุกประเภท&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
     &lt;label class=&quot;form-label&quot;&gt;เลือกแหล่ง&lt;select class=&quot;form-select&quot; id=&quot;tmf-place&quot;&gt;&lt;option value=&quot;&quot;&gt;เลือกจากรายชื่อ&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
   &lt;/div&gt;
@@ -1879,8 +1879,8 @@ html&gt;body{padding:0}&lt;/style&gt;
     const colors=[&#x27;var(--viz-series-1)&#x27;,&#x27;var(--viz-series-2)&#x27;,&#x27;var(--viz-series-3)&#x27;];
     const featureByProvince=new Map(geo.features.map(f=&gt;[f.properties.PROV_NAM_T,f]));
     geo.features.forEach(f=&gt;{const polygons=f.geometry.type===&#x27;Polygon&#x27;?[f.geometry.coordinates]:f.geometry.coordinates;polygons.forEach(p=&gt;p.forEach((ring,i)=&gt;{const area=d3.geoArea({type:&#x27;Polygon&#x27;,coordinates:[ring]});if((i===0&amp;&amp;area&gt;2*Math.PI)||(i&gt;0&amp;&amp;area&lt;2*Math.PI))ring.reverse();}));});
-    let saved=window.openai?.widgetState, state={province:&#x27;&#x27;,group:&#x27;&#x27;,type:&#x27;&#x27;,id:&#x27;&#x27;,query:&#x27;&#x27;,area:&#x27;&#x27;};
-    const restore=s=&gt;{const value=s?.privateContent||s?.modelContent||{}; for(const k of [&#x27;province&#x27;,&#x27;group&#x27;,&#x27;type&#x27;,&#x27;id&#x27;,&#x27;query&#x27;,&#x27;area&#x27;])if(typeof value[k]===&#x27;string&#x27;)state[k]=value[k];};
+    let saved=window.openai?.widgetState, state={province:&#x27;&#x27;,group:&#x27;&#x27;,type:&#x27;&#x27;,id:&#x27;&#x27;,query:&#x27;&#x27;,area:&#x27;&#x27;,quality:&#x27;&#x27;};
+    const restore=s=&gt;{const value=s?.privateContent||s?.modelContent||{}; for(const k of [&#x27;province&#x27;,&#x27;group&#x27;,&#x27;type&#x27;,&#x27;id&#x27;,&#x27;query&#x27;,&#x27;area&#x27;,&#x27;quality&#x27;])if(typeof value[k]===&#x27;string&#x27;)state[k]=value[k];};
     restore(saved);
     const provinceSelect=$(&#x27;tmf-province&#x27;),groupSelect=$(&#x27;tmf-group&#x27;),typeSelect=$(&#x27;tmf-type&#x27;),placeSelect=$(&#x27;tmf-place&#x27;);
     const option=(s,v,t)=&gt;{const o=document.createElement(&#x27;option&#x27;);o.value=v;o.textContent=t;s.append(o);};
@@ -1890,8 +1890,8 @@ html&gt;body{padding:0}&lt;/style&gt;
     const base=svg.append(&#x27;g&#x27;), land=base.append(&#x27;g&#x27;), labels=svg.append(&#x27;g&#x27;), marks=svg.append(&#x27;g&#x27;),focus=svg.append(&#x27;g&#x27;);
     const zoom=d3.zoom().scaleExtent([1,180]).on(&#x27;zoom&#x27;,e=&gt;{transform=e.transform;base.attr(&#x27;transform&#x27;,transform);drawMarks();});
     svg.call(zoom).on(&#x27;dblclick.zoom&#x27;,null);
-    const save=()=&gt;{window.openai?.setWidgetState?.({modelContent:{province:state.province,group:state.group,type:state.type,query:state.query,area:state.area,selectedId:state.id,selectedPlace:data.find(d=&gt;d.id===state.id)?.n||null},privateContent:{...state}})?.catch(()=&gt;{});};
-    const visible=()=&gt;data.filter(d=&gt;(!state.query||(d.n+&#x27; &#x27;+d.id+&#x27; &#x27;+d.p).toLocaleLowerCase(&#x27;th&#x27;).includes(state.query.toLocaleLowerCase(&#x27;th&#x27;)))&amp;&amp;(!state.area||d.a===state.area)&amp;&amp;(!state.province||d.p===state.province)&amp;&amp;(!state.group||String(d.g)===state.group)&amp;&amp;(!state.type||d.t===state.type));
+    const save=()=&gt;{window.openai?.setWidgetState?.({modelContent:{province:state.province,group:state.group,type:state.type,query:state.query,area:state.area,quality:state.quality,selectedId:state.id,selectedPlace:data.find(d=&gt;d.id===state.id)?.n||null},privateContent:{...state}})?.catch(()=&gt;{});};
+    const visible=()=&gt;data.filter(d=&gt;(!state.query||(d.n+&#x27; &#x27;+d.id+&#x27; &#x27;+d.p+&#x27; &#x27;+(d.a||&#x27;&#x27;)+&#x27; &#x27;+(d.gmhiInfo||&#x27;&#x27;)).toLocaleLowerCase(&#x27;th&#x27;).includes(state.query.toLocaleLowerCase(&#x27;th&#x27;)))&amp;&amp;(!state.quality||(state.quality===&#x27;gmhi&#x27;&amp;&amp;d.gmhi)||(state.quality===&#x27;multi&#x27;&amp;&amp;d.sc&gt;=2)||(state.quality===&#x27;weak&#x27;&amp;&amp;d.sc&lt;2)||(state.quality===&#x27;conflict&#x27;&amp;&amp;d.conflict))&amp;&amp;(!state.area||d.a===state.area)&amp;&amp;(!state.province||d.p===state.province)&amp;&amp;(!state.group||String(d.g)===state.group)&amp;&amp;(!state.type||d.t===state.type));
     function updateOptions(){
       placeSelect.replaceChildren();option(placeSelect,&#x27;&#x27;,&#x27;เลือกจากรายชื่อ&#x27;);
       [...filtered].sort((a,b)=&gt;a.p.localeCompare(b.p,&#x27;th&#x27;)||a.n.localeCompare(b.n,&#x27;th&#x27;)).forEach(d=&gt;option(placeSelect,d.id,d.id+&#x27; · &#x27;+d.n+&#x27; · &#x27;+d.p));
@@ -1902,10 +1902,19 @@ html&gt;body{padding:0}&lt;/style&gt;
       if(!d){const title=document.createElement(&#x27;div&#x27;);title.className=&#x27;detail-name&#x27;;title.textContent=state.province||&#x27;เลือกจุดหรือรายชื่อเพื่อดูสถานที่&#x27;;box.append(title);const p=document.createElement(&#x27;p&#x27;);p.className=&#x27;text-small text-muted&#x27;;p.textContent=&#x27;วงกลมที่มีตัวเลขรวมสถานที่ใกล้กัน กดเพื่อขยาย&#x27;;box.append(p);return;}
       const heading=document.createElement(&#x27;div&#x27;);heading.className=&#x27;detail-name&#x27;;heading.textContent=d.n;box.append(heading);
       const meta=document.createElement(&#x27;div&#x27;);meta.className=&#x27;detail-meta text-small&#x27;;box.append(meta);
-      [d.id+&#x27; · &#x27;+d.p,groups[d.g-1],d.t,d.a||&#x27;&#x27;,&#x27;สถานะเปิดให้บริการ: &#x27;+(d.op||&#x27;ยังไม่ยืนยันการเปิดให้บริการ&#x27;),&#x27;อัพเดตวันที่ &#x27;+d.u,d.xy?&#x27;มีพิกัดจากแหล่งข้อมูล · รอตรวจทาน&#x27;:&#x27;แสดงได้ระดับจังหวัด · รอยืนยันพิกัด&#x27;,d.note||&#x27;&#x27;].filter(Boolean).forEach(t=&gt;{const p=document.createElement(&#x27;div&#x27;);p.textContent=t;meta.append(p);});
+      [d.id+&#x27; · &#x27;+d.p,groups[d.g-1],d.t,d.a||&#x27;&#x27;,&#x27;สถานะเปิดให้บริการ: &#x27;+(d.op||&#x27;ยังไม่ยืนยันการเปิดให้บริการ&#x27;),&#x27;อัพเดตวันที่ &#x27;+d.u,d.xy?&#x27;มีพิกัดจากแหล่งข้อมูล · รอตรวจทาน&#x27;:&#x27;แสดงได้ระดับจังหวัด · รอยืนยันพิกัด&#x27;,d.note||&#x27;&#x27;,d.status||&#x27;&#x27;,d.checked?&#x27;ตรวจค้นออนไลน์: &#x27;+d.checked:&#x27;&#x27;,d.gmhiInfo||&#x27;&#x27;,d.checknote||&#x27;&#x27;].filter(Boolean).forEach(t=&gt;{const p=document.createElement(&#x27;div&#x27;);p.textContent=t;meta.append(p);});
       const links=document.createElement(&#x27;div&#x27;);links.className=&#x27;viz-row text-small&#x27;;
       const a=document.createElement(&#x27;a&#x27;);a.textContent=&#x27;แหล่งข้อมูล&#x27;;a.href=d.url;a.target=&#x27;_blank&#x27;;a.rel=&#x27;noopener&#x27;;links.append(a);
       const b=document.createElement(&#x27;a&#x27;);b.textContent=&#x27;ดูใน Google Maps&#x27;;b.href=&#x27;https://www.google.com/maps/search/?api=1&amp;query=&#x27;+encodeURIComponent(d.xy?d.xy[1]+&#x27;,&#x27;+d.xy[0]:d.n+&#x27; &#x27;+d.p+&#x27; Thailand&#x27;);b.target=&#x27;_blank&#x27;;b.rel=&#x27;noopener&#x27;;links.append(b);box.append(links);
+      const sources=document.createElement(&#x27;div&#x27;);sources.className=&#x27;text-small&#x27;;sources.style.marginTop=&#x27;12px&#x27;;
+      function sourceLink(url,label){if(!/^https?:\/\//.test(url||&#x27;&#x27;))return;const row=document.createElement(&#x27;div&#x27;),a=document.createElement(&#x27;a&#x27;);a.href=url;a.textContent=label;a.target=&#x27;_blank&#x27;;a.rel=&#x27;noopener&#x27;;row.append(a);sources.append(row);}
+      (d.social||[]).forEach((url,i)=&gt;sourceLink(url,&#x27;ช่องทางสังคมที่พบ &#x27;+(i+1)+&#x27; (รอยืนยันเจ้าของ)&#x27;));
+      if(!(d.social||[]).length){const t=document.createElement(&#x27;p&#x27;);t.textContent=&#x27;ยังไม่พบช่องทางสังคมที่จับคู่ชัดเจน&#x27;;sources.append(t);}
+      (d.reviews||[]).forEach((url,i)=&gt;sourceLink(url,&#x27;หน้ารีวิวที่พบ &#x27;+(i+1)));
+      (d.other||[]).forEach((url,i)=&gt;sourceLink(url,&#x27;แหล่งข้อมูลเพิ่มเติม &#x27;+(i+1)));
+      if(d.gmhi)sourceLink(d.gmhi,&#x27;รายการในทะเบียน GMHI&#x27;);
+      if(d.certurl)sourceLink(d.certurl,&#x27;ภาพใบรับรองที่เผยแพร่ในทะเบียน (ดูหมายเหตุการจับคู่ชื่อ)&#x27;);
+      box.append(sources);
     }
     function select(d,move=true){
       state.id=d.id;placeSelect.value=d.id;detail(d);
@@ -1915,7 +1924,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     function go(t){svg.call(zoom.transform,t);}
     function fitProvince(p){const f=featureByProvince.get(p);if(!f){go(d3.zoomIdentity);return;}const [[x0,y0],[x1,y1]]=path.bounds(f),k=Math.min(140,.85/Math.max((x1-x0)/w,(y1-y0)/h));go(d3.zoomIdentity.translate(w/2-k*(x0+x1)/2,h/2-k*(y0+y1)/2).scale(k));}
     function update(){
-      $(&#x27;tmf-search&#x27;).value=state.query||&#x27;&#x27;;$(&#x27;tmf-area&#x27;).value=state.area||&#x27;&#x27;;provinceSelect.value=state.province;groupSelect.value=state.group;typeSelect.value=state.type;filtered=visible();
+      $(&#x27;tmf-search&#x27;).value=state.query||&#x27;&#x27;;$(&#x27;tmf-evidence&#x27;).value=state.quality||&#x27;&#x27;;$(&#x27;tmf-area&#x27;).value=state.area||&#x27;&#x27;;provinceSelect.value=state.province;groupSelect.value=state.group;typeSelect.value=state.type;filtered=visible();
       if(!filtered.some(d=&gt;d.id===state.id))state.id=&#x27;&#x27;;
       updateOptions();const count=filtered.filter(d=&gt;d.xy).length;
       $(&#x27;tmf-count&#x27;).textContent=filtered.length+&#x27; แหล่ง · มีพิกัด &#x27;+count+&#x27; · รอยืนยันพิกัด &#x27;+(filtered.length-count);
@@ -1966,14 +1975,14 @@ html&gt;body{padding:0}&lt;/style&gt;
     [provinceSelect,groupSelect,typeSelect].forEach((element,i)=&gt;element.addEventListener(&#x27;change&#x27;,()=&gt;{state[[&#x27;province&#x27;,&#x27;group&#x27;,&#x27;type&#x27;][i]]=element.value;if(i===0)state.area=&#x27;&#x27;;state.id=&#x27;&#x27;;update();if(i===0){if(state.province)fitProvince(state.province);else go(d3.zoomIdentity);}save();}));
     placeSelect.addEventListener(&#x27;change&#x27;,()=&gt;{const d=data.find(d=&gt;d.id===placeSelect.value);if(d)select(d);else{state.id=&#x27;&#x27;;detail();drawMarks();save();}});
     $(&#x27;tmf-zoom-in&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;svg.call(zoom.scaleBy,1.8));$(&#x27;tmf-zoom-out&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;svg.call(zoom.scaleBy,1/1.8));
-    $(&#x27;tmf-full&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{state={province:&#x27;&#x27;,group:&#x27;&#x27;,type:&#x27;&#x27;,id:&#x27;&#x27;,query:&#x27;&#x27;,area:&#x27;&#x27;};update();go(d3.zoomIdentity);save();});
+    $(&#x27;tmf-full&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{state={province:&#x27;&#x27;,group:&#x27;&#x27;,type:&#x27;&#x27;,id:&#x27;&#x27;,query:&#x27;&#x27;,area:&#x27;&#x27;,quality:&#x27;&#x27;};update();go(d3.zoomIdentity);save();});
     window.addEventListener(&#x27;openai:set_globals&#x27;,e=&gt;{if(e.detail?.globals?.widgetState){restore(e.detail.globals.widgetState);update();if(state.province)fitProvince(state.province);}});
     $(&#x27;tmf-search&#x27;).addEventListener(&#x27;input&#x27;,e=&gt;{state.query=e.target.value;update();save();});
     $(&#x27;tmf-total&#x27;).textContent=data.length; $(&#x27;tmf-updated&#x27;).textContent=data.map(d=&gt;d.u).filter(Boolean).sort((a,b)=&gt;a.split(&#x27;/&#x27;).reverse().join(&#x27;&#x27;).localeCompare(b.split(&#x27;/&#x27;).reverse().join(&#x27;&#x27;))).at(-1)||&#x27;&#x27;;
 
     [...new Set(data.map(d=&gt;d.a).filter(Boolean))].sort((a,b)=&gt;a.localeCompare(b,&#x27;th&#x27;)).forEach(a=&gt;option($(&#x27;tmf-area&#x27;),a,a));
     function areaFit(){ const points=visible().filter(d=&gt;d.xy).map(d=&gt;projection(d.xy)); if(!points.length){go(d3.zoomIdentity);return;}const x0=d3.min(points,p=&gt;p[0]),x1=d3.max(points,p=&gt;p[0]),y0=d3.min(points,p=&gt;p[1]),y1=d3.max(points,p=&gt;p[1]);const k=Math.min(90,.75/Math.max((x1-x0)/w,(y1-y0)/h,.012));go(d3.zoomIdentity.translate(w/2-k*(x0+x1)/2,h/2-k*(y0+y1)/2).scale(k)); }
-    function setDestination(province,area){state.province=province;state.area=area;state.query=&#x27;&#x27;;state.group=&#x27;&#x27;;state.type=&#x27;&#x27;;state.id=&#x27;&#x27;;update();if(province)fitProvince(province);else if(area)areaFit();else go(d3.zoomIdentity);save();}
+    function setDestination(province,area){state.province=province;state.area=area;state.quality=&#x27;&#x27;;state.query=&#x27;&#x27;;state.group=&#x27;&#x27;;state.type=&#x27;&#x27;;state.id=&#x27;&#x27;;update();if(province)fitProvince(province);else if(area)areaFit();else go(d3.zoomIdentity);save();}
     const kpis=[[&#x27;แหล่งทั้งหมด&#x27;,data.length],[&#x27;จังหวัดที่ครอบคลุม&#x27;,new Set(data.map(d=&gt;d.p)).size],...groups.map((g,i)=&gt;[g+&#x27; (เสนอ)&#x27;,data.filter(d=&gt;d.g===i+1).length])];
     for(const [label,value] of kpis){const card=document.createElement(&#x27;div&#x27;);card.className=&#x27;tmf-kpi&#x27;;const title=document.createElement(&#x27;span&#x27;);title.className=&#x27;tmf-kpi-label&#x27;;title.textContent=label;const n=document.createElement(&#x27;strong&#x27;);n.className=&#x27;tabular-nums&#x27;;n.textContent=value;card.append(title,n);$(&#x27;tmf-kpis&#x27;).append(card);}
     const typeCounts=d3.rollups(data,v=&gt;v.length,d=&gt;d.t).sort((a,b)=&gt;b[1]-a[1]);
@@ -1984,7 +1993,10 @@ html&gt;body{padding:0}&lt;/style&gt;
     $(&#x27;tmf-provinces-title&#x27;).textContent=&#x27;จำนวนแหล่งครบ &#x27;+provinces.length+&#x27; จังหวัด&#x27;;
     for(const [province,n] of provinces){const b=document.createElement(&#x27;button&#x27;);b.type=&#x27;button&#x27;;b.className=&#x27;btn btn-ghost text-small&#x27;;b.textContent=province+&#x27; · &#x27;+n;b.addEventListener(&#x27;click&#x27;,()=&gt;setDestination(province,&#x27;&#x27;));$(&#x27;tmf-provinces-summary&#x27;).append(b);}
     const checked=data.filter(d=&gt;d.checked).length,gmhi=data.filter(d=&gt;d.gmhi).length;
-    $(&#x27;tmf-review-progress&#x27;).textContent=&#x27;ตรวจหลักฐานรอบใหม่เสร็จ &#x27;+checked+&#x27;/&#x27;+data.length+&#x27; แหล่ง · กำลังเทียบทะเบียน GMHI · สถานะเปิดให้บริการยังต้องตรวจสอบรายแห่ง&#x27;;
+    $(&#x27;tmf-review-progress&#x27;).textContent=&#x27;ค้นหาและคัดผลออนไลน์ &#x27;+checked+&#x27;/&#x27;+data.length+&#x27; แหล่ง · พบชื่อสัมพันธ์หลายเว็บ &#x27;+data.filter(d=&gt;d.sc&gt;=2).length+&#x27; แหล่ง · มีชื่อในทะเบียน GMHI &#x27;+gmhi+&#x27; แหล่ง&#x27;;
+    $(&#x27;tmf-evidence&#x27;).addEventListener(&#x27;change&#x27;,e=&gt;{state.quality=e.target.value;state.id=&#x27;&#x27;;update();save();});
+    $(&#x27;tmf-clear-all&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;setDestination(&#x27;&#x27;,&#x27;&#x27;));
+    $(&#x27;tmf-show-gmhi&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{setDestination(&#x27;&#x27;,&#x27;&#x27;);state.quality=&#x27;gmhi&#x27;;update();save();});
     $(&#x27;tmf-area&#x27;).addEventListener(&#x27;change&#x27;,e=&gt;{state.area=e.target.value;state.province=&#x27;&#x27;;state.id=&#x27;&#x27;;update();areaFit();save();});
     new ResizeObserver(resize).observe($(&#x27;tmf-svg&#x27;).parentElement);resize();
   })();

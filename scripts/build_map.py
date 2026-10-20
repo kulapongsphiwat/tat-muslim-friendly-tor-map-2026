@@ -18,6 +18,10 @@ def read_sheet(archive,name):
             v=c.find('s:v',NS);value=v.text if v is not None else ''
             if c.attrib.get('t')=='s':value=strings[int(value)]
             elif c.attrib.get('t')=='inlineStr':value=''.join(c.find('s:is',NS).itertext())
+            formula=c.find('s:f',NS)
+            if formula is not None and formula.text:
+                link=re.match(r'=?(?:_xlfn\.)?HYPERLINK\("((?:[^"]|"")*)"',formula.text,re.I)
+                if link:value=link.group(1).replace('""','"')
             values[col]=value or ''
         result.append(values)
     return result
@@ -29,7 +33,27 @@ def build():
     audit={r['id']:r for r in json.loads(audit_file.read_text(encoding='utf-8'))} if audit_file.exists() else {}
     areas={'TMF-124':'เขาใหญ่–ปากช่อง','TMF-126':'เขาใหญ่–ปากช่อง','TMF-128':'เขาใหญ่–ปากช่อง','TMF-130':'เขาใหญ่–ปากช่อง','TMF-352':'เขาใหญ่–ปากช่อง','TMF-357':'เขาใหญ่–ปากช่อง','TMF-560':'ทางขึ้นเขาใหญ่ฝั่งปราจีนบุรี','TMF-227':'มวกเหล็ก–ปากช่อง'}
     for n in [122,123,125,127,129,131,133,134,135,353,354]:areas['TMF-'+str(n)]='เขายายเที่ยง–สีคิ้ว'
-    with zipfile.ZipFile(ROOT/'data/places.xlsx') as archive:sheet=read_sheet(archive,'xl/worksheets/sheet1.xml')
+    with zipfile.ZipFile(ROOT/'data/places.xlsx') as archive:
+        sheet=read_sheet(archive,'xl/worksheets/sheet1.xml')
+        review_sheets=[read_sheet(archive,name) for name in archive.namelist() if re.fullmatch(r'xl/worksheets/sheet\d+\.xml',name) and name!='xl/worksheets/sheet1.xml']
+        review=next((rows for rows in review_sheets if any('รหัส' in row.values() and 'สถานะเปิดจากหลักฐาน' in row.values() for row in rows)),[])
+        if review:
+            h=next((i for i,row in enumerate(review) if 'รหัส' in row.values() and 'สถานะเปิดจากหลักฐาน' in row.values()),None)
+            if h is not None:
+                head={v:k for k,v in review[h].items()}
+                for row in review[h+1:]:
+                    ident=row.get(head['รหัส'],'').strip()
+                    if not ident:continue
+                    item=audit.setdefault(ident,{'id':ident})
+                    get=lambda label:row.get(head.get(label,''),'').strip()
+                    item['op']=get('ผลทบทวนการเปิด') if get('ผลทบทวนการเปิด') not in ['','รอติดต่อ','ยังไม่ยืนยัน'] else get('สถานะเปิดจากหลักฐาน')
+                    item['status']=get('ผลค้นหาซ้ำ');item['checknote']=get('ประเด็นต้องยืนยัน')
+                    try:item['sc']=int(float(get('จำนวนเว็บชื่อสัมพันธ์'))) if get('จำนวนเว็บชื่อสัมพันธ์') else 0
+                    except ValueError:raise ValueError('Invalid source count for '+ident)
+                    for key,labels in [('social',['ช่องทางสังคม 1','ช่องทางสังคม 2']),('reviews',['หน้ารีวิว 1','หน้ารีวิว 2']),('other',['เว็บเพิ่มเติม 1','เว็บเพิ่มเติม 2'])]:item[key]=[get(label) for label in labels if get(label).startswith(('https://','http://'))]
+                    serial=get('วันที่ตรวจ')
+                    try:item['checked']=(datetime.datetime(1899,12,30)+datetime.timedelta(days=float(serial))).strftime('%d/%m/%Y')
+                    except (ValueError,TypeError):item['checked']=serial
     required=['ชื่อแหล่ง','จังหวัด','กลุ่ม','ประเภท','อัพเดตวันที่']
     header=next((i for i,row in enumerate(sheet) if all(x in row.values() for x in required)),None)
     if header is None:raise ValueError('Missing required Excel column headers')
@@ -40,15 +64,16 @@ def build():
         if not name:continue
         province=row.get(headers['จังหวัด'],'').strip();group=row.get(headers['กลุ่ม'],'').strip()
         if group not in GROUPS:raise ValueError('Unknown proposed group for '+name+': '+group)
-        original=lookup.get((name,province),{})
+        explicit_id=row.get(headers.get('รหัส',''),'').strip()
+        original=next((r for r in coordinate_rows if r['id']==explicit_id),{}) if explicit_id else lookup.get((name,province),{})
         serial=row.get(headers['อัพเดตวันที่'],'')
         try:date=(datetime.datetime(1899,12,30)+datetime.timedelta(days=float(serial))).strftime('%d/%m/%Y')
         except (ValueError,TypeError):date=str(serial)
         item=dict(original)
-        item.update({'id':original.get('id') or 'TMF-'+str(len(data)+1).zfill(3),'n':name,'p':province,'g':GROUPS.index(group)+1,'t':row.get(headers['ประเภท'],''),'u':date})
+        item.update({'id':explicit_id or original.get('id') or 'NEW-'+str(len(data)+1).zfill(3),'n':name,'p':province,'g':GROUPS.index(group)+1,'t':row.get(headers['ประเภท'],''),'u':date})
         item['a']=areas.get(item['id'],'')
         item.update(audit.get(item['id'],{}))
-        item.setdefault('xy',None);item.setdefault('note','');item.setdefault('cs','')
+        item.setdefault('xy',None);item.setdefault('note','');item.setdefault('cs','');item.setdefault('sc',0)
         item.setdefault('url','https://www.google.com/maps/search/?api=1&query='+__import__('urllib.parse',fromlist=['quote']).quote(name+' '+province))
         if item['xy']:
             lon,lat=item['xy']
@@ -56,6 +81,7 @@ def build():
         data.append(item)
     if not data:raise ValueError('No venues in Excel')
     if len({(r['n'],r['p']) for r in data})!=len(data):raise ValueError('Duplicate name and province in Excel')
+    if len({r['id'] for r in data})!=len(data):raise ValueError('Duplicate venue ID in Excel')
     payload=json.dumps(data,ensure_ascii=False,separators=(',',':')).replace('<','\\u003c')
     template=(ROOT/'template/page.html').read_text(encoding='utf-8')
     assert template.count('__EXCEL_DATA__')==1

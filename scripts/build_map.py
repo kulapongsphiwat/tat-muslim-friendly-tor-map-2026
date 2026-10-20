@@ -25,6 +25,10 @@ def read_sheet(archive,name):
 def build():
     coordinate_rows=json.loads((ROOT/'data/locations.json').read_text(encoding='utf-8'))
     lookup={(r['n'].strip(),r['p'].strip()):r for r in coordinate_rows}
+    audit_file=ROOT/'data/revalidation.json'
+    audit={r['id']:r for r in json.loads(audit_file.read_text(encoding='utf-8'))} if audit_file.exists() else {}
+    areas={'TMF-124':'เขาใหญ่–ปากช่อง','TMF-126':'เขาใหญ่–ปากช่อง','TMF-128':'เขาใหญ่–ปากช่อง','TMF-130':'เขาใหญ่–ปากช่อง','TMF-352':'เขาใหญ่–ปากช่อง','TMF-357':'เขาใหญ่–ปากช่อง','TMF-560':'ทางขึ้นเขาใหญ่ฝั่งปราจีนบุรี','TMF-227':'มวกเหล็ก–ปากช่อง'}
+    for n in [122,123,125,127,129,131,133,134,135,353,354]:areas['TMF-'+str(n)]='เขายายเที่ยง–สีคิ้ว'
     with zipfile.ZipFile(ROOT/'data/places.xlsx') as archive:sheet=read_sheet(archive,'xl/worksheets/sheet1.xml')
     required=['ชื่อแหล่ง','จังหวัด','กลุ่ม','ประเภท','อัพเดตวันที่']
     header=next((i for i,row in enumerate(sheet) if all(x in row.values() for x in required)),None)
@@ -42,6 +46,8 @@ def build():
         except (ValueError,TypeError):date=str(serial)
         item=dict(original)
         item.update({'id':original.get('id') or 'TMF-'+str(len(data)+1).zfill(3),'n':name,'p':province,'g':GROUPS.index(group)+1,'t':row.get(headers['ประเภท'],''),'u':date})
+        item['a']=areas.get(item['id'],'')
+        item.update(audit.get(item['id'],{}))
         item.setdefault('xy',None);item.setdefault('note','');item.setdefault('cs','')
         item.setdefault('url','https://www.google.com/maps/search/?api=1&query='+__import__('urllib.parse',fromlist=['quote']).quote(name+' '+province))
         if item['xy']:

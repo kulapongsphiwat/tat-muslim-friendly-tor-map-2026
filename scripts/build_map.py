@@ -91,6 +91,15 @@ def build():
         item['day']=row.get(headers.get('วันตามต้นฉบับ',''),'').strip()
         if item['day']=='ตัวเลือกเสริม':item['day']=''
         item['confirmed']=row.get(headers.get('ผลประเมินตามเกณฑ์',''),'').strip() or 'รอประเมิน'
+        if 'ใกล้จุดเส้นทาง ≤25 กม.' in headers:
+            item['routeFit']=row.get(headers['ใกล้จุดเส้นทาง ≤25 กม.'],'').strip()=='ใช่'
+            item['routeAnchor']=row.get(headers.get('จุดอ้างอิงใน PDF',''),'').strip()
+            km=row.get(headers.get('ระยะเส้นตรง (กม.)',''),'').strip()
+            item['routeKm']=float(km) if km else None
+            item['locationScope']=row.get(headers.get('ขอบเขตหมุด',''),'').strip()
+            item['groupBasis']=row.get(headers.get('เหตุผลกลุ่มเสนอ',''),'').strip()
+            item['cs']=row.get(headers.get('แหล่งพิกัด',''),'').strip() or item.get('cs','')
+            item['note']=item['locationScope']
         if item['id'] in proof_by_id:
             p=proof_by_id[item['id']];lat=p.get('ละติจูด','');lon=p.get('ลองจิจูด','')
             item['xy']=[float(lon),float(lat)] if lat and lon else None
@@ -113,6 +122,8 @@ def build():
     (out/'.nojekyll').write_text('',encoding='utf-8')
     mapped=sum(bool(r['xy']) for r in data)
     summary={'title':'TAT Muslim Friendly TOR Map 2026','venues':len(data),'mapped':mapped,'pending_coordinates':len(data)-mapped,'groups':{g:sum(r['g']==i+1 for r in data) for i,g in enumerate(GROUPS)},'types':{t:sum(r['t']==t for r in data) for t in sorted(set(r['t'] for r in data))},'routes':{r:sum(x.get('route')==r for x in data) for r in sorted(set(x.get('route','เพิ่มเติม') for x in data))}}
+    ready=[r for r in data if r['g']==1]
+    summary['proposed_ready_route']={'ready_total':len(ready),'near_ten_routes':sum(bool(r.get('routeFit')) for r in ready),'percent':round(100*sum(bool(r.get('routeFit')) for r in ready)/len(ready),1) if ready else 0,'method':'same province and at most 25 km straight line to a named PDF stop, not road distance'}
     (out/'build-summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps(summary,ensure_ascii=True))
     return summary
